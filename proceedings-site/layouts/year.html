@@ -1,0 +1,6 @@
+{{ define "main" }}
+{{ $year := string .Params.year }}
+{{ $config := index site.Data.years $year }}
+{{ $data := index site.Data.proceedings $year }}
+{{ partial "proceedings.html" (dict "Page" . "Year" $year "Config" $config "Records" $data.abstracts "Availability" $data.proceedings_list "WithAbstract" false) }}
+{{ end }}

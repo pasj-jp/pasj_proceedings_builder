@@ -24,7 +24,7 @@ from pdf_writer import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_ABSTRACT_JSON = ROOT / "proceedings-site" / "data" / "abstracts.json"
+DEFAULT_ABSTRACT_JSON = ROOT / "proceedings-site" / "data" / "proceedings" / "2025" / "abstracts.json"
 DEFAULT_FONT_DIR = ROOT / "ttfonts" / "TimesNewRomanPSMT"
 
 

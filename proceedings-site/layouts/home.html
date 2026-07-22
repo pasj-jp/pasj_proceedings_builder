@@ -1,4 +1,8 @@
 {{ define "main" }}
-  {{ partial "proceedings.html" (dict "Page" . "WithAbstract" false) }}
+<header class="hero"><h1>{{ site.Title }}</h1></header>
+<div class="year-list">
+{{ range sort site.Data.years "year" "desc" }}
+  <article><h2><a href="{{ printf "%s/" .year | relURL }}">{{ .title }}</a></h2><p>{{ .disclosure }}</p></article>
 {{ end }}
-
+</div>
+{{ end }}

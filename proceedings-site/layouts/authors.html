@@ -1,11 +1,13 @@
 {{ define "main" }}
+{{ $year := string .Params.year }}
+{{ $data := index site.Data.proceedings $year }}
 <h1>Author Index</h1>
-<p><a href="{{ site.Home.RelPermalink }}">← 目次へ戻る</a></p>
+<p><a href="{{ printf "%s/" $year | relURL }}">← {{ $year }}年の目次へ戻る</a></p>
 {{ $entries := slice }}
-{{ range site.Data.abstracts }}{{ $talk := .talk_id }}{{ range .coauthors }}
+{{ range $data.abstracts }}{{ $talk := .talk_id }}{{ range .coauthors }}
   {{ $last := strings.TrimSpace (string .last_name_en) }}
   {{ $first := strings.TrimSpace (string .first_name_en) }}
   {{ if or $last $first }}{{ $entries = $entries | append (dict "sort" (lower (printf "%s %s" $last $first)) "name" (printf "%s, %s" $last $first) "talk" $talk) }}{{ end }}
 {{ end }}{{ end }}
-<table class="authors">{{ range sort $entries "sort" }}<tr><td>{{ .name }}</td><td><a href="{{ printf "papers/%s/" (lower .talk) | relURL }}">{{ .talk }}</a></td></tr>{{ end }}</table>
+<table class="authors">{{ range sort $entries "sort" }}<tr><td>{{ .name }}</td><td><a href="{{ printf "%s/papers/%s/" $year (lower .talk) | relURL }}">{{ .talk }}</a></td></tr>{{ end }}</table>
 {{ end }}

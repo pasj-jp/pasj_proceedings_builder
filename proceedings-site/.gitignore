@@ -1,4 +1,3 @@
 /public/
 /resources/
-/content/papers/*.md
-
+/content/[0-9]*/

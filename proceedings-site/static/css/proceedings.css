@@ -3,6 +3,9 @@ body { background: #fff; color: #111; margin: 24px; }
 a { color: #0645ad; }
 .page { max-width: 960px; margin: 0 auto; }
 .hero { text-align: center; margin-bottom: 24px; }
+.year-list { display: grid; gap: 16px; max-width: 680px; margin: 0 auto; }
+.year-list article { border: 1px solid #ccd8df; padding: 12px 20px; }
+.year-list h2 { margin: 0; }
 .copyright { color: #a00000; max-width: 720px; margin: 16px auto; text-align: left; }
 nav a { display: inline-block; margin: 4px 8px; }
 table { width: 100%; border-collapse: collapse; }
@@ -17,4 +20,3 @@ table { width: 100%; border-collapse: collapse; }
 .pdf-button { display: inline-block; background: #005080; color: #fff; padding: 8px 16px; text-decoration: none; }
 .authors td { border-bottom: 1px solid #ddd; padding: 5px 8px; }
 @media (max-width: 640px) { body { margin: 10px; } .paper-row td { display: block; width: auto; } }
-
