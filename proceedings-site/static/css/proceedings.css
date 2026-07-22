@@ -1,0 +1,20 @@
+:root { color-scheme: light; font-family: Arial, Helvetica, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; line-height: 1.55; }
+body { background: #fff; color: #111; margin: 24px; }
+a { color: #0645ad; }
+.page { max-width: 960px; margin: 0 auto; }
+.hero { text-align: center; margin-bottom: 24px; }
+.copyright { color: #a00000; max-width: 720px; margin: 16px auto; text-align: left; }
+nav a { display: inline-block; margin: 4px 8px; }
+table { width: 100%; border-collapse: collapse; }
+.session { background: #005080; color: #fff; padding: 6px 9px; text-align: left; }
+.time { background: #e0f0ff; color: #005080; font-weight: bold; padding: 4px 9px; }
+.paper-row td { padding: 9px 7px 16px; vertical-align: top; }
+.code { width: 88px; white-space: nowrap; font-weight: bold; }
+.links { margin-top: 4px; font-weight: normal; }
+.abstract { margin-top: 14px; }
+.article h2 { text-align: center; font-size: 1.15rem; font-weight: normal; }
+.article > p:not(.session) { text-align: center; }
+.pdf-button { display: inline-block; background: #005080; color: #fff; padding: 8px 16px; text-decoration: none; }
+.authors td { border-bottom: 1px solid #ddd; padding: 5px 8px; }
+@media (max-width: 640px) { body { margin: 10px; } .paper-row td { display: block; width: auto; } }
+

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>WEP010</title>
+  <link rel="stylesheet" href="../proceedings.css">
+</head>
+<body>
+<div class="page article">
+<table>
+<tr><td class="session"><b>WEP010</b>　ポスターセッション①　8月6日 7-1F-A 12:40-14:40</td></tr>
+<tr><td align="center">RCNPにおける電磁石電源制御更新及びRF故障検知機構の開発<br>Update of the control system of magnet power supply and development of anomaly detection system for RF stable operation at RCNP</td></tr>
+<tr><td align="center">&nbsp;<br>○依田 哲彦, 松田 洋平, 神田 浩樹, 福田 光宏（阪大RCNP）<br>○Tetsuhiko Yorita, Yohei Matsuda, Hiroki Kanda, Mitsuhiro Hukuda（RCNP, Osaka Univ.）</td></tr>
+<tr><td align="left">&nbsp;<br><span>RCNPサイクロトロン施設ではビーム供給の安定運用のため様々な方策に取り組んでいる。電磁石電源ンの制御に関しては、レガシーな制御機器であるSHI製のマイコンボードUDCのPLCへの置き換えを順次進めている。RCNPの制御システムの大部分はInTouchというSCADAシステムで運用されているが、置き換えられたPLC制御はEPICSの配下に置き、制御系全体としてはEPICS、さらにEPICS制御比率を上げていっている。ただし、SCADAとEPICSの間にOPC UAサーバーを介することで電源制御を旧来通りSCADAからも制御できるようにすることで、制御移行の過渡期における混乱を避ける仕組みを今回新たに構築する。これにより、従来通りのオペレーションが引き続きできる一方で、EPICSからPythonを通じて機器情報を得ることが可能となり、機械学習への適応などが容易にできるようになり、機器の安定運用につながる。これとは別に、すでにEPICS単体で制御されているRFシステムについては、取得されたRF波形をニューラルネットでラベル付け機械学習をすることにより、RFシステムでのクローバー作動などの予兆を検知するシステムの構築を進めており、こちらも、RFの安定運用や長寿命化につながる情報が得られることが期待される。</span><br>&nbsp;</td></tr>
+</table>
+</div>
+</body>
+</html>

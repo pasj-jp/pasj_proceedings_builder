@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>FRP007</title>
+  <link rel="stylesheet" href="../proceedings.css">
+</head>
+<body>
+<div class="page article">
+<table>
+<tr><td class="session"><b>FRP007</b>　ポスターセッション③　8月8日 7-1F-A 10:00-12:00</td></tr>
+<tr><td align="center">MELSEC iQ-R C言語コントローラ上へのEPICS組み込みとPythonによるデバイスサポートの検証<br>Evaluation of Embedded EPICS with Python-based Device Support on MELSEC iQ-R C Intelligent Function Module</td></tr>
+<tr><td align="center">&nbsp;<br>○内山 暁仁, 込山 美咲, 山田 一成（理研仁科センター）<br>○Akito Uchiyama, Misaki Komiyama, Kazunari Yamada（RIKEN Nishina Center）</td></tr>
+<tr><td align="left">&nbsp;<br><span>RIBF制御系はEPICSを用いて構築されており、TCP/IPベースの商用および自作デバイスが多数接続されている。しかし、これらのデバイスでは、ネットワークスイッチや機器の予期せぬ電源断によりソケット通信が切断された後、EPICS IOCとの再接続が行われず、運用上の問題となるケースがある。このような課題への対応として、横河FA-M3シリーズのPLCにLinux CPUを搭載し、その上にEPICSを実装する組込システムの構成が制御系として採用されている。一方で、FA-M3だけでなく産業界で広く使用されている三菱電機製MELSECシリーズをRIBF制御系でも採用されるケースがある。その場合、従来は別のLinuxマシン上で動作するEPICS IOCから、TCP/IPを介した非同期なデバイスサポートによりPLCにアクセスさせていた。今回、そのような構成においてもEPICS IOCとデバイス間の通信信頼性を向上させることを目的として、MELSEC iQ-Rシリーズに搭載可能なOSとしてLinuxが走るC言語コントローラ(RD55UP06-V) 上でEPICSを動作させる実証試験を実施した。このC言語コントローラのプログラム開発にはネイティブコンパイル環境が必要となるため、デバイスサポートの初期開発にはインタプリタであるPythonを用い、PyDeviceを介してEPICSとの連携を実現した。本発表では、MELSEC iQ-RシリーズにおけるEPICSデバイスサポートの開発手法、実装状況、および今後の展望について報告する。</span><br>&nbsp;</td></tr>
+</table>
+</div>
+</body>
+</html>

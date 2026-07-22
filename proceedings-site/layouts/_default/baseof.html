@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+  <link rel="stylesheet" href="{{ "css/proceedings.css" | relURL }}">
+</head>
+<body><main class="page">{{ block "main" . }}{{ end }}</main></body>
+</html>
+

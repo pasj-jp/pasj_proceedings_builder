@@ -1,0 +1,10 @@
+baseURL = "https://example.github.io/pasj-proceedings/"
+languageCode = "ja"
+title = "PASJ2025 Proceedings"
+disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+
+[params]
+pdfBaseURL = "https://www.pasj.jp/web_publish/pasj2025/proceedings/PDF"
+disclosure = "2026年3月17日 公開"
+copyrightNotice = "本プロシーディングスの著作権は日本加速器学会に帰属します。本プロシーディングス全体または個々の論文を転載する場合には、予め日本加速器学会の許可を必要とします。"
+

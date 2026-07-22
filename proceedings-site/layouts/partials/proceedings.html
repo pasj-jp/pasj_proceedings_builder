@@ -1,0 +1,27 @@
+{{ $withAbstract := .WithAbstract }}
+{{ $page := .Page }}
+<header class="hero">
+  <h1>{{ site.Title }}</h1>
+  <div class="copyright">{{ site.Params.copyrightNotice }}</div>
+  <p>{{ site.Params.disclosure }}</p>
+  <p>{{ if $withAbstract }}プロシーディングス目次（アブストラクト付き）{{ else }}プロシーディングス目次（アブストラクトなし）{{ end }}</p>
+  <nav>{{ if $withAbstract }}<a href="{{ site.Home.RelPermalink }}">［アブストラクトなし］</a>{{ else }}<a href="{{ "abstracts/" | relURL }}">［アブストラクト付き］</a>{{ end }} <a href="{{ "authors/" | relURL }}">［著者索引］</a></nav>
+</header>
+{{ $current := "" }}
+<table class="papers">
+{{ range site.Data.abstracts }}
+  {{ $talk := string .talk_id }}
+  {{ $availability := where site.Data.proceedings_list "talk_id" $talk }}
+  {{ $hasPDF := false }}
+  {{ $startPage := 0 }}
+  {{ range first 1 $availability }}{{ with .start_page }}{{ $hasPDF = true }}{{ $startPage = . }}{{ end }}{{ end }}
+  {{ $label := printf "%s　（%s %s）" .session .date .room }}
+  {{ if ne $label $current }}<tr><th colspan="2" class="session" id="{{ $talk }}">{{ $label }}</th></tr>{{ $current = $label }}{{ end }}
+  <tr><td colspan="2" class="time">{{ .time }}</td></tr>
+  {{ $pdf := printf "%s/%s/%s.pdf" (strings.TrimSuffix "/" site.Params.pdfBaseURL) (substr $talk 0 4) $talk }}
+  <tr class="paper-row">
+    <td class="code">{{ if $hasPDF }}<a href="{{ $pdf }}" target="_blank" rel="noopener">{{ $talk }}</a><br><b>p.{{ $startPage }}</b>{{ else }}{{ $talk }}{{ end }}<div class="links"><a href="{{ printf "papers/%s/" (lower $talk) | relURL }}">[Abstract]</a></div></td>
+    <td>{{ if $hasPDF }}<a href="{{ $pdf }}" target="_blank" rel="noopener">{{ end }}{{ .title_ja | safeHTML }}{{ if and .title_ja .title_en }}<br>{{ end }}{{ .title_en | safeHTML }}{{ if $hasPDF }}</a>{{ end }}<br>{{ .author_text_html | safeHTML }}{{ with index . "著者情報（英語）" }}<br>{{ . | safeHTML }}{{ end }}{{ if $withAbstract }}<div class="abstract">{{ .abstract_ja | safeHTML }}</div>{{ end }}</td>
+  </tr>
+{{ end }}
+</table>

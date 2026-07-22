@@ -1,0 +1,17 @@
+{{ define "main" }}
+{{ $paper := index site.Data.abstracts (sub .Params.position 1) }}
+{{ $talk := string $paper.talk_id }}
+{{ $availability := where site.Data.proceedings_list "talk_id" $talk }}
+{{ $hasPDF := false }}
+{{ range first 1 $availability }}{{ with .start_page }}{{ $hasPDF = true }}{{ end }}{{ end }}
+{{ $pdf := printf "%s/%s/%s.pdf" (strings.TrimSuffix "/" site.Params.pdfBaseURL) (substr $talk 0 4) $talk }}
+<article class="article">
+  <p><a href="{{ site.Home.RelPermalink }}">← 目次へ戻る</a></p>
+  <h1>{{ $talk }}</h1>
+  <p class="session">{{ $paper.session }}　{{ $paper.date }} {{ $paper.room }} {{ $paper.time }}</p>
+  <h2>{{ $paper.title_ja | safeHTML }}{{ if and $paper.title_ja $paper.title_en }}<br>{{ end }}{{ $paper.title_en | safeHTML }}</h2>
+  <p>{{ $paper.author_text_html | safeHTML }}{{ with index $paper "著者情報（英語）" }}<br>{{ . | safeHTML }}{{ end }}</p>
+  <div class="abstract">{{ $paper.abstract_ja | safeHTML }}</div>
+  {{ if $hasPDF }}<p><a class="pdf-button" href="{{ $pdf }}" target="_blank" rel="noopener">PDFを開く</a></p>{{ end }}
+</article>
+{{ end }}

@@ -1,0 +1,45 @@
+name: Deploy Hugo site to Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["proceedings-site/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.155.1"
+          extended: true
+      - run: python3 scripts/import_abstracts.py
+        working-directory: proceedings-site
+      - id: pages
+        uses: actions/configure-pages@v5
+      - run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        working-directory: proceedings-site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: proceedings-site/public
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
