@@ -7,6 +7,10 @@ PDF本体は含めず、pasj.jp上の公開PDFへ絶対URLでリンクします�
 同じ年度ディレクトリの `proceedings_list.json` で `start_page` が数値の講演だけが
 PDFリンクになります。
 
+トップページの年度一覧には、誌名「日本加速器学会年会プロシーディングス」と
+`ISSN 2761-0004 (Online)` を表示します。誌名は `hugo.toml` の `title`、
+ISSNは `[params]` の `issn` で管理します。
+
 ## ローカル確認
 
 ```bash

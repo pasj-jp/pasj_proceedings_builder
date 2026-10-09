@@ -1,4 +1,7 @@
 baseURL = "https://example.github.io/pasj-proceedings/"
 languageCode = "ja"
-title = "PASJ Proceedings"
+title = "日本加速器学会年会プロシーディングス"
 disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+
+[params]
+issn = "2761-0004"
