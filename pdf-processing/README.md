@@ -12,7 +12,7 @@ python process_proceedings_pdfs.py \
   --abstract-json ../proceedings-site/data/proceedings/2025/abstracts.json \
   --source-root /path/to/submitted/proceedings \
   --output-root /path/to/pasj.jp/proceedings/PDF \
-  --volume PASJ2025
+  --year 2025
 ```
 
 PDFは `<output-root>/<講演番号の先頭4文字>/<講演番号>.pdf` に出力されます。
@@ -29,3 +29,17 @@ HugoサイトはPDFが存在する講演にだけリンクを表示します。
 ```bash
 python convert_proceedings_list.py proceedings_list.txt proceedings_list.json
 ```
+
+任意のPDFでヘッダーとページ番号をテストする場合:
+
+```bash
+python add_test_header.py input.pdf output.pdf \
+  --year 2026 \
+  --talk-id "SAMPLE-01" \
+  --start-page 10
+```
+
+入力PDFと出力PDFには異なるファイルを指定してください。
+年ごとの `volume`、`header1`、`header2` は `header_config.json` で管理します。
+ヘッダー2行には Times New Roman Italic（フォントファイルがない場合は
+PDF組み込みの Times Italic）を使用します。

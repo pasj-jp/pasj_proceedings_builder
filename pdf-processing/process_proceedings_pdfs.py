@@ -13,7 +13,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from models import ProcessResult, load_papers
+from models import ProcessResult, load_papers, load_year_config
 from pdf_writer import (
     copy_slide,
     newest_pdf_for_talk,
@@ -26,10 +26,12 @@ from pdf_writer import (
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ABSTRACT_JSON = ROOT / "proceedings-site" / "data" / "proceedings" / "2025" / "abstracts.json"
 DEFAULT_FONT_DIR = ROOT / "ttfonts" / "TimesNewRomanPSMT"
+DEFAULT_CONFIG = Path(__file__).with_name("header_config.json")
 
 
 def process_all(args: argparse.Namespace) -> list[ProcessResult]:
     papers = load_papers(args.abstract_json)
+    year_config = load_year_config(args.config, args.year)
     results: list[ProcessResult] = []
     next_page = args.start_page
 
@@ -56,9 +58,9 @@ def process_all(args: argparse.Namespace) -> list[ProcessResult]:
             output_pdf=output_pdf,
             paper=paper,
             start_page=start_page,
-            volume=args.volume,
-            header1=args.header1,
-            header2=args.header2,
+            volume=year_config["volume"],
+            header1=year_config["header1"],
+            header2=year_config["header2"],
             font_dir=args.font_dir,
             dry_run=args.dry_run,
         )
@@ -98,12 +100,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--list-files-dir", type=Path, help="Optional list_files directory for pdf_page_data.txt.")
     parser.add_argument("--slides-root", type=Path, help="Optional root of oral slide PDFs to copy.")
     parser.add_argument("--font-dir", type=Path, default=DEFAULT_FONT_DIR)
-    parser.add_argument("--volume", default="PASJ2025")
-    parser.add_argument(
-        "--header1",
-        default="Proceedings of the 22nd Annual Meeting of Particle Accelerator Society of Japan",
-    )
-    parser.add_argument("--header2", default="August 6 - 8, 2025, Tokyo")
+    parser.add_argument("--year", type=int, default=2025, help="Proceedings configuration year.")
+    parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG, help="Year configuration JSON.")
     parser.add_argument("--page-data-file", default="pdf_page_data.txt")
     parser.add_argument(
         "--proceedings-list-file",

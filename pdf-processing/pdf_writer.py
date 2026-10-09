@@ -88,8 +88,8 @@ def process_pdf(
     regular_font = font_dir / "times.ttf"
     use_files = italic_font.exists() and bold_font.exists() and regular_font.exists()
 
-    font_italic = "TimesNewRomanItalic" if use_files else "tiro"
-    font_bold = "TimesNewRomanBold" if use_files else "tiro"
+    font_italic = "TimesNewRomanItalic" if use_files else "tiit"
+    font_bold = "TimesNewRomanBold" if use_files else "tibo"
     font_regular = "TimesNewRoman" if use_files else "tiro"
     italic_file = italic_font if use_files else None
     bold_file = bold_font if use_files else None

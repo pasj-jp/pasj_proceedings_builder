@@ -98,3 +98,26 @@ def load_papers(path: Path) -> list[Paper]:
             )
         )
     return papers
+
+
+def load_year_config(path: Path, year: int) -> dict[str, str]:
+    """Load and validate the PDF header settings for one proceedings year."""
+
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError(f"{path} must contain a JSON object")
+
+    config = data.get(str(year))
+    if not isinstance(config, dict):
+        available = ", ".join(sorted(data)) or "none"
+        raise ValueError(
+            f"year {year} is not configured in {path} (available: {available})"
+        )
+
+    required = ("volume", "header1", "header2")
+    missing = [key for key in required if not str(config.get(key) or "").strip()]
+    if missing:
+        raise ValueError(
+            f"{path}: year {year} is missing required values: {', '.join(missing)}"
+        )
+    return {key: str(config[key]).strip() for key in required}
