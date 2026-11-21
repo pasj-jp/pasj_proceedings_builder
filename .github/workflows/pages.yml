@@ -3,7 +3,7 @@ name: Deploy Hugo site to Pages
 on:
   push:
     branches: [main]
-    paths: ["proceedings-site/**", ".github/workflows/pages.yml"]
+    paths: ["content/**", "data/**", "layouts/**", "static/**", "hugo.toml", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -24,15 +24,12 @@ jobs:
         with:
           hugo-version: "0.155.1"
           extended: true
-      - run: python3 scripts/import_abstracts.py
-        working-directory: proceedings-site
       - id: pages
         uses: actions/configure-pages@v5
-      - run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
-        working-directory: proceedings-site
+      - run: hugo --minify
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: proceedings-site/public
+          path: public
   deploy:
     environment:
       name: github-pages

@@ -1,0 +1,33 @@
+{{/* Build proceedings pages directly from the yearly JSON data. */}}
+{{ range $key, $config := .Site.Data.years }}
+  {{ $year := string ($config.year | default $key) }}
+  {{ $data := index $.Site.Data.proceedings $year }}
+  {{ $.AddPage (dict
+    "kind" "section"
+    "path" $year
+    "title" $config.title
+    "layout" "year"
+    "params" (dict "year" $year)
+  ) }}
+  {{ range $layout, $title := dict "abstracts" "プロシーディングス目次（アブストラクト付き）" "authors" "Author Index" }}
+    {{ $.AddPage (dict
+      "kind" "page"
+      "path" (printf "%s/%s" $year $layout)
+      "title" $title
+      "layout" $layout
+      "params" (dict "year" $year)
+    ) }}
+  {{ end }}
+  {{ range $index, $record := $data.abstracts }}
+    {{ $talk := strings.TrimSpace (string ($record.talk_id | default "")) }}
+    {{ if $talk }}
+      {{ $.AddPage (dict
+        "kind" "page"
+        "path" (printf "%s/papers/%s" $year $talk)
+        "title" $talk
+        "layout" "paper"
+        "params" (dict "year" $year "talk_id" $talk "position" (add $index 1))
+      ) }}
+    {{ end }}
+  {{ end }}
+{{ end }}

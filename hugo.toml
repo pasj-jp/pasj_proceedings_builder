@@ -1,0 +1,7 @@
+baseURL = "https://proceedings.pasj.jp/"
+languageCode = "ja"
+title = "日本加速器学会年会プロシーディングス"
+disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+
+[params]
+issn = "2761-0004"
