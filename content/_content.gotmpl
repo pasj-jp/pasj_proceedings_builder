@@ -1,7 +1,8 @@
 {{/* Build proceedings pages directly from the yearly JSON data. */}}
-{{ range $key, $config := .Site.Data.years }}
-  {{ $year := string ($config.year | default $key) }}
-  {{ $data := index $.Site.Data.proceedings $year }}
+{{ range $key, $config := .Site.Data }}
+  {{ if findRE `^proceedings_[0-9]{4}$` $key }}
+  {{ $year := string ($config.year | default (strings.TrimPrefix "proceedings_" $key)) }}
+  {{ $data := $config.records }}
   {{ $.AddPage (dict
     "kind" "section"
     "path" $year
@@ -18,7 +19,7 @@
       "params" (dict "year" $year)
     ) }}
   {{ end }}
-  {{ range $index, $record := $data.abstracts }}
+  {{ range $index, $record := $data }}
     {{ $talk := strings.TrimSpace (string ($record.talk_id | default "")) }}
     {{ if $talk }}
       {{ $.AddPage (dict
@@ -30,4 +31,5 @@
       ) }}
     {{ end }}
   {{ end }}
+{{ end }}
 {{ end }}

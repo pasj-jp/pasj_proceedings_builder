@@ -1,13 +1,12 @@
 {{ define "main" }}
 {{ $year := string .Params.year }}
-{{ $config := index site.Data.years $year }}
-{{ $data := index site.Data.proceedings $year }}
-{{ $paper := index $data.abstracts (sub .Params.position 1) }}
+{{ $config := index site.Data (printf "proceedings_%s" $year) }}
+{{ $data := (index site.Data (printf "proceedings_%s" $year)).records }}
+{{ $paper := index $data (sub .Params.position 1) }}
 {{ $talk := string $paper.talk_id }}
-{{ $availability := where $data.proceedings_list "talk_id" $talk }}
 {{ $hasPDF := false }}
-{{ range first 1 $availability }}{{ with .start_page }}{{ $hasPDF = true }}{{ end }}{{ end }}
-{{ $pdf := printf "%s/%s/%s.pdf" (strings.TrimSuffix "/" $config.pdfBaseURL) (substr $talk 0 4) $talk }}
+{{ if and $paper.start_page $paper.pdf_path }}{{ $hasPDF = true }}{{ end }}
+{{ $pdf := printf "%s/%s" (strings.TrimSuffix "/" $config.pdfBaseURL) (strings.TrimPrefix "/" ($paper.pdf_path | default "")) }}
 <article class="article">
   <p><a href="{{ printf "%s/" $year | relURL }}">← {{ $year }}年の目次へ戻る</a></p>
   <h1>{{ $talk }}</h1>

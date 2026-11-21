@@ -4,7 +4,13 @@
   {{ with site.Params.issn }}<p>ISSN {{ . }} (Online)</p>{{ end }}
 </header>
 <div class="year-list">
-{{ range sort site.Data.years "year" "desc" }}
+{{ $years := slice }}
+{{ range $key, $config := site.Data }}
+  {{ if findRE `^proceedings_[0-9]{4}$` $key }}
+    {{ $years = $years | append $config }}
+  {{ end }}
+{{ end }}
+{{ range sort $years "year" "desc" }}
   <article><h2><a href="{{ printf "%s/" .year | relURL }}">{{ .title }}</a></h2><p>{{ .disclosure }}</p></article>
 {{ end }}
 </div>

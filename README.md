@@ -1,10 +1,10 @@
 # Proceedings site (Hugo)
 
-年度別の `data/proceedings/<年>/abstracts.json` から目次、アブストラクト、
+年度別の `data/proceedings_<年>.json` から目次、アブストラクト、
 著者索引を生成するHugoサイトです。トップページは年度一覧になり、2025年度は
 `/2025/` 以下に生成されます。
 PDF本体は含めず、pasj.jp上の公開PDFへ絶対URLでリンクします。
-同じ年度ディレクトリの `proceedings_list.json` で `start_page` が数値の講演だけが
+各講演の `start_page` と `pdf_path` が設定されている講演だけが
 PDFリンクになります。
 
 トップページの年度一覧には、誌名「日本加速器学会年会プロシーディングス」と
@@ -29,19 +29,18 @@ hugo server
 公開前に次の設定を確認してください。
 
 - GitHub Pages の Custom domain: `proceedings.pasj.jp`（DNS 設定も必要）
-- `data/years/2025.json` の `pdfBaseURL`: pasj.jpに配置したPDFディレクトリのURL
+- `data/proceedings_2025.json` の `pdfBaseURL`: pasj.jpに配置したPDFディレクトリのURL
 
 ## 翌年度の追加
 
-例えば2026年度は次の3ファイルを追加します。
+例えば2026年度は次の1ファイルを追加します。
 
 ```text
-data/years/2026.json
-data/proceedings/2026/abstracts.json
-data/proceedings/2026/proceedings_list.json
+data/proceedings_2026.json
 ```
 
-`data/years/2025.json` を複製して年度、タイトル、PDF URL、公開日を変更できます。
+`data/proceedings_2025.json` を複製して年度、タイトル、PDF URL、公開日を変更し、
+`records` を2026年度の講演データに置き換えます。
 その後に `hugo` を実行すると、トップページに
 2026年度が追加され、サイトは `/2026/` 以下に生成されます。
 
@@ -51,11 +50,39 @@ data/proceedings/2026/proceedings_list.json
 |---|---|
 | `hugo.toml` | サイト URL・誌名・ISSN の設定 |
 | `content/_content.gotmpl` | JSON データからページを生成する Hugo Content adapter |
-| `data/years/` | 年度別の設定 |
-| `data/proceedings/` | 年度別の講演・PDF 公開状況データ |
+| `data/proceedings_<年>.json` | 年度設定と講演・著者・アブストラクト・PDF 公開状況を統合した年度別データ |
 | `layouts/` | HTML テンプレート |
 | `static/` | CSS などの静的ファイル |
 
 生成先は `public/` です。GitHub Actions も Hugo のみでビルドして GitHub Pages へ配置します。
 GitHub Pages のビルドでも `hugo.toml` の本番 URL を使用します。
-年度設定のファイル名と `year`、講演データのディレクトリ名は同じ年度に揃えてください。
+JSON は `data/proceedings_<年>.json` という名前にし、ファイル名の年度と、その中の `year` を揃えてください。
+
+## 講演データ
+
+`data/proceedings_<年>.json` は、年度設定と講演データをまとめたオブジェクトです。
+
+```json
+{
+  "year": "2026",
+  "title": "PASJ2026 Proceedings",
+  "pdfBaseURL": "https://www.pasj.jp/web_publish/pasj2026/proceedings/PDF",
+  "disclosure": "公開日を記入",
+  "copyrightNotice": "著作権表示を記入",
+  "records": []
+}
+```
+
+`records` は、1講演を1オブジェクトとする配列です。
+講演情報・著者・アブストラクトと、次の PDF 情報を同じオブジェクトに保存します。
+
+- `talk_id`: 年度内で一意の講演番号
+- `start_page`: 公開 PDF の開始ページ番号（正の整数）。PDF がない場合は `null`
+- `pdf_path`: 年度設定の `pdfBaseURL` からの相対パス（例: `WEPO/WEPO703.pdf`）。先頭の `/` は付けず、PDF がない場合は `null`
+- `index`: 従来の PDF 一覧の順序番号。情報がない場合は `null`
+
+目次の表示順は配列の順序です。`index` では並べ替えません。
+PDF リンクは `{pdfBaseURL}/{pdf_path}` で生成します。年度や講演によって
+ディレクトリ構成・ファイル名が変わる場合は `pdf_path` に実際のパスを指定してください。
+`talk_id` からパスを推測する処理はありません。
+講演を追加する際も、このファイルだけを更新すれば各ページに反映されます。
