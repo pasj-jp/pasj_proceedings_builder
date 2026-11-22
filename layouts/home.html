@@ -5,7 +5,7 @@
 </header>
 <div class="year-list">
 {{ $years := slice }}
-{{ range $key, $config := site.Data }}
+{{ range $key, $config := hugo.Data }}
   {{ if findRE `^proceedings_[0-9]{4}$` $key }}
     {{ $years = $years | append $config }}
   {{ end }}

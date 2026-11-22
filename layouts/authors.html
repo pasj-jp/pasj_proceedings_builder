@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $year := string .Params.year }}
-{{ $data := (index site.Data (printf "proceedings_%s" $year)).records }}
+{{ $data := (index hugo.Data (printf "proceedings_%s" $year)).records }}
 <h1>Author Index</h1>
 <p><a href="{{ printf "%s/" $year | relURL }}">← {{ $year }}年の目次へ戻る</a></p>
 {{ $entries := slice }}

@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{ $year := string .Params.year }}
-{{ $config := index site.Data (printf "proceedings_%s" $year) }}
-{{ $data := (index site.Data (printf "proceedings_%s" $year)).records }}
+{{ $config := index hugo.Data (printf "proceedings_%s" $year) }}
+{{ $data := (index hugo.Data (printf "proceedings_%s" $year)).records }}
 {{ $paper := index $data (sub .Params.position 1) }}
 {{ $talk := string $paper.talk_id }}
 {{ $hasPDF := false }}

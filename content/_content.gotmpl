@@ -1,5 +1,5 @@
 {{/* Build proceedings pages directly from the yearly JSON data. */}}
-{{ range $key, $config := .Site.Data }}
+{{ range $key, $config := hugo.Data }}
   {{ if findRE `^proceedings_[0-9]{4}$` $key }}
   {{ $year := string ($config.year | default (strings.TrimPrefix "proceedings_" $key)) }}
   {{ $data := $config.records }}
