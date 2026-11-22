@@ -1,0 +1,25 @@
+{{- $authors := .coauthors -}}
+{{- if not $authors -}}{{- $authors = slice . -}}{{- end -}}
+{{- $affiliations := slice -}}
+{{- range $authors -}}
+  {{- with .affiliation -}}
+    {{- if not (in $affiliations .) -}}{{- $affiliations = $affiliations | append . -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- range $i, $author := $authors -}}
+  {{- if $i }}, {{ end -}}
+  {{- if strings.HasPrefix ($author.role | default "") "登壇者" -}}○{{- end -}}
+  {{- strings.TrimSpace (printf "%s %s" ($author.last_name | default "") ($author.first_name | default "")) -}}
+  {{- if gt (len $affiliations) 1 -}}
+    {{- range $j, $affiliation := $affiliations -}}
+      {{- if eq $affiliation $author.affiliation -}}<sup>{{ add $j 1 }}</sup>{{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- with $affiliations -}}
+  （{{- range $i, $affiliation := . -}}
+    {{- if $i }}, {{ end -}}
+    {{- if gt (len $affiliations) 1 -}}<sup>{{ add $i 1 }}</sup>{{- end -}}
+    {{- $affiliation -}}
+  {{- end -}}）
+{{- end -}}

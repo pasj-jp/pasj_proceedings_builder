@@ -12,7 +12,7 @@
   <h1>{{ $talk }}</h1>
   <p class="session">{{ $paper.session }}　{{ $paper.date }} {{ $paper.room }} {{ $paper.time }}</p>
   <h2>{{ $paper.title_ja | safeHTML }}{{ if and $paper.title_ja $paper.title_en }}<br>{{ end }}{{ $paper.title_en | safeHTML }}</h2>
-  <p>{{ $paper.author_text_html | safeHTML }}{{ with index $paper "著者情報（英語）" }}<br>{{ . | safeHTML }}{{ end }}</p>
+  <p>{{ partial "authors.html" $paper }}{{ with index $paper "著者情報（英語）" }}<br>{{ . | safeHTML }}{{ end }}</p>
   <div class="abstract">{{ $paper.abstract_ja | safeHTML }}</div>
   {{ if $hasPDF }}<p><a class="pdf-button" href="{{ $pdf }}" target="_blank" rel="noopener">PDFを開く</a></p>{{ end }}
 </article>

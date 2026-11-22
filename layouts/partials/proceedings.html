@@ -23,7 +23,7 @@
   {{ $pdf := printf "%s/%s" (strings.TrimSuffix "/" $config.pdfBaseURL) (strings.TrimPrefix "/" (.pdf_path | default "")) }}
   <tr class="paper-row">
     <td class="code">{{ if $hasPDF }}<a href="{{ $pdf }}" target="_blank" rel="noopener">{{ $talk }}</a><br><b>p.{{ $startPage }}</b>{{ else }}{{ $talk }}{{ end }}<div class="links"><a href="{{ printf "%s/papers/%s/" $year (lower $talk) | relURL }}">[Abstract]</a></div></td>
-    <td>{{ if $hasPDF }}<a href="{{ $pdf }}" target="_blank" rel="noopener">{{ end }}{{ .title_ja | safeHTML }}{{ if and .title_ja .title_en }}<br>{{ end }}{{ .title_en | safeHTML }}{{ if $hasPDF }}</a>{{ end }}<br>{{ .author_text_html | safeHTML }}{{ with index . "著者情報（英語）" }}<br>{{ . | safeHTML }}{{ end }}{{ if $withAbstract }}<div class="abstract">{{ .abstract_ja | safeHTML }}</div>{{ end }}</td>
+    <td>{{ if $hasPDF }}<a href="{{ $pdf }}" target="_blank" rel="noopener">{{ end }}{{ .title_ja | safeHTML }}{{ if and .title_ja .title_en }}<br>{{ end }}{{ .title_en | safeHTML }}{{ if $hasPDF }}</a>{{ end }}<br>{{ partial "authors.html" . }}{{ with index . "著者情報（英語）" }}<br>{{ . | safeHTML }}{{ end }}{{ if $withAbstract }}<div class="abstract">{{ .abstract_ja | safeHTML }}</div>{{ end }}</td>
   </tr>
 {{ end }}
 </table>
