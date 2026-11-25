@@ -1,7 +1,7 @@
 baseURL = "https://proceedings.pasj.jp/"
 locale = "ja"
 title = "日本加速器学会年会プロシーディングス"
-disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+disableKinds = ["taxonomy", "term", "RSS"]
 
 [params]
 issn = "2761-0004"
