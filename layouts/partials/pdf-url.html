@@ -1,0 +1,5 @@
+{{- $url := "" -}}
+{{- if and .Paper.start_page .Paper.pdf_path -}}
+  {{- $url = printf "%s/%s" (strings.TrimSuffix "/" .Config.pdfBaseURL) (strings.TrimPrefix "/" .Paper.pdf_path) -}}
+{{- end -}}
+{{- return $url -}}

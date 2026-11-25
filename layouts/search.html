@@ -1,0 +1,9 @@
+{{ define "main" }}
+<header class="hero"><p class="eyebrow">SEARCH THE ARCHIVE</p><h1>プロシーディングス検索</h1><p class="lead">日本語・英語のタイトル、著者、所属、アブストラクトから全年度を検索。</p></header>
+{{ partial "search-form.html" (dict "Full" true) }}
+<p class="muted">空白で区切った複数の語をすべて含む論文を検索します。</p>
+<noscript><p>横断検索にはJavaScriptが必要です。<a href="{{ site.Home.RelPermalink }}#years">年度別目次</a>からすべての論文を閲覧できます。</p></noscript>
+<p id="search-status" role="status" aria-live="polite">検索索引を読み込んでいます…</p>
+<div id="search-results"></div><button id="load-more" type="button" hidden>さらに50件表示</button>
+<script type="module" src="{{ "js/search.js" | relURL }}"></script>
+{{ end }}

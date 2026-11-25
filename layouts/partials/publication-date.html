@@ -1,0 +1,9 @@
+{{- $date := "" -}}
+{{- with .publicationDate -}}{{- $date = . -}}{{- else -}}
+  {{- $matches := findRE `\d{4}年\d{1,2}月\d{1,2}日` (.disclosure | default "") 1 -}}
+  {{- range $matches -}}
+    {{- $parts := findRE `\d+` . -}}
+    {{- $date = printf "%s/%02d/%02d" (index $parts 0) (int (index $parts 1)) (int (index $parts 2)) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $date -}}

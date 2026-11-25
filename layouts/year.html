@@ -2,5 +2,5 @@
 {{ $year := string .Params.year }}
 {{ $config := index hugo.Data (printf "proceedings_%s" $year) }}
 {{ $data := (index hugo.Data (printf "proceedings_%s" $year)).records }}
-{{ partial "proceedings.html" (dict "Page" . "Year" $year "Config" $config "Records" $data "WithAbstract" false) }}
+{{ partial "proceedings.html" (dict "Page" . "Year" $year "Config" $config "Records" $data) }}
 {{ end }}

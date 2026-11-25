@@ -1,0 +1,18 @@
+{{ $description := site.Title }}
+{{ with .Params.paper }}{{ $description = (.abstract_ja | default .abstract_en | default .title_ja | default .title_en) | plainify | htmlUnescape | truncate 160 }}{{ else }}{{ $description = printf "%s。日本加速器学会の年会論文・著者・アブストラクト・PDFを探せます。" $.Title }}{{ end }}
+<meta name="description" content="{{ $description }}">
+<link rel="canonical" href="{{ .Permalink }}">
+{{ with .Params.paper }}
+{{ $config := index hugo.Data (printf "proceedings_%s" $.Params.year) }}
+<meta name="citation_title" content="{{ (.title_ja | default .title_en | default .talk_id) | plainify | htmlUnescape }}">
+{{ $authors := .coauthors | default (slice .) }}
+{{ range $authors }}
+{{ $name := strings.TrimSpace (printf "%s %s" (.first_name_en | default "") (.last_name_en | default "")) }}
+{{ if not $name }}{{ $name = strings.TrimSpace (printf "%s %s" (.last_name | default "") (.first_name | default "")) }}{{ end }}
+{{ with $name }}<meta name="citation_author" content="{{ . }}">{{ end }}
+{{ end }}
+{{ with partial "publication-date.html" $config }}<meta name="citation_publication_date" content="{{ . }}">{{ end }}
+<meta name="citation_conference_title" content="{{ $config.title }}">
+{{ with partial "pdf-url.html" (dict "Paper" . "Config" $config) }}<meta name="citation_pdf_url" content="{{ . | absURL }}">{{ end }}
+{{ with site.Params.issn }}<meta name="citation_issn" content="{{ . }}">{{ end }}
+{{ end }}

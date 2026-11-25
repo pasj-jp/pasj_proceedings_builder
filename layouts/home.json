@@ -1,0 +1,6 @@
+{{- $volumes := slice -}}
+{{- range sort site.Sections "Params.year" "desc" -}}
+  {{- $year := .Params.year -}}
+  {{- with .OutputFormats.Get "JSON" -}}{{- $volumes = $volumes | append (dict "url" .RelPermalink "year" $year) -}}{{- end -}}
+{{- end -}}
+{{- $volumes | jsonify -}}

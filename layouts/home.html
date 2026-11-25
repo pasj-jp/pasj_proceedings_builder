@@ -1,17 +1,10 @@
 {{ define "main" }}
-<header class="hero">
-  <h1>{{ site.Title }}</h1>
-  {{ with site.Params.issn }}<p>ISSN {{ . }} (Online)</p>{{ end }}
-</header>
-<div class="year-list">
-{{ $years := slice }}
-{{ range $key, $config := hugo.Data }}
-  {{ if findRE `^proceedings_[0-9]{4}$` $key }}
-    {{ $years = $years | append $config }}
-  {{ end }}
+{{ $years := sort site.Sections "Params.year" "desc" }}
+<section class="home-hero"><h1><span class="society-name">日本加速器学会</span><br>年会プロシーディングス</h1><p class="archive-subtitle" lang="en">Proceedings of Annual Meeting of the Particle Accelerator Society of Japan</p>{{ partial "search-form.html" (dict "Full" false) }}</section>
+{{ range first 1 $years }}{{ $config := index hugo.Data (printf "proceedings_%s" .Params.year) }}
+<section class="latest"><div><p class="eyebrow">LATEST PROCEEDINGS · 最新巻</p><h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2><p>{{ $config.disclosure }}</p></div><a class="button" href="{{ .RelPermalink }}">{{ .Params.year }}年のプロシーディングスを見る →</a></section>
 {{ end }}
-{{ range sort $years "year" "desc" }}
-  <article><h2><a href="{{ printf "%s/" .year | relURL }}">{{ .title }}</a></h2><p>{{ .disclosure }}</p></article>
-{{ end }}
-</div>
+<section id="years"><div class="section-heading"><div><p class="eyebrow">BROWSE THE ARCHIVE</p><h2>年度から探す</h2></div><p class="muted">{{ len $years }}年度のプロシーディングス</p></div><div class="year-grid">
+{{ range $years }}{{ $config := index hugo.Data (printf "proceedings_%s" .Params.year) }}<article class="year-card"><p class="year-number">{{ .Params.year }}</p><h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>{{ with $config.edition }}<p>{{ . }}</p>{{ end }}{{ with $config.location }}<p>{{ . }}</p>{{ end }}<p class="muted">{{ len (where .RegularPages "Layout" "paper") }}件の講演 <span aria-hidden="true">↗</span></p></article>{{ end }}
+</div></section>
 {{ end }}

@@ -10,24 +10,22 @@
     "layout" "year"
     "params" (dict "year" $year)
   ) }}
-  {{ range $layout, $title := dict "abstracts" "プロシーディングス目次（アブストラクト付き）" "authors" "Author Index" }}
-    {{ $.AddPage (dict
-      "kind" "page"
-      "path" (printf "%s/%s" $year $layout)
-      "title" $title
-      "layout" $layout
-      "params" (dict "year" $year)
-    ) }}
-  {{ end }}
+  {{ $.AddPage (dict
+    "kind" "page"
+    "path" (printf "%s/authors" $year)
+    "title" "Author Index"
+    "layout" "authors"
+    "params" (dict "year" $year)
+  ) }}
   {{ range $index, $record := $data }}
     {{ $talk := strings.TrimSpace (string ($record.talk_id | default "")) }}
     {{ if $talk }}
       {{ $.AddPage (dict
         "kind" "page"
         "path" (printf "%s/papers/%s" $year $talk)
-        "title" $talk
+        "title" (($record.title_ja | default $record.title_en | default $talk) | plainify)
         "layout" "paper"
-        "params" (dict "year" $year "talk_id" $talk "position" (add $index 1))
+        "params" (dict "year" $year "talk_id" $talk "position" (add $index 1) "paper" $record)
       ) }}
     {{ end }}
   {{ end }}

@@ -1,7 +1,13 @@
 baseURL = "https://proceedings.pasj.jp/"
 locale = "ja"
+defaultContentLanguage = "ja"
 title = "日本加速器学会年会プロシーディングス"
 disableKinds = ["taxonomy", "term", "RSS"]
+enableRobotsTXT = true
+
+[outputs]
+home = ["HTML", "JSON"]
+section = ["HTML", "JSON"]
 
 [params]
 issn = "2761-0004"

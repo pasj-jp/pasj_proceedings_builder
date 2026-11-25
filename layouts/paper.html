@@ -1,19 +1,17 @@
 {{ define "main" }}
-{{ $year := string .Params.year }}
-{{ $config := index hugo.Data (printf "proceedings_%s" $year) }}
-{{ $data := (index hugo.Data (printf "proceedings_%s" $year)).records }}
-{{ $paper := index $data (sub .Params.position 1) }}
-{{ $talk := string $paper.talk_id }}
-{{ $hasPDF := false }}
-{{ if and $paper.start_page $paper.pdf_path }}{{ $hasPDF = true }}{{ end }}
-{{ $pdf := printf "%s/%s" (strings.TrimSuffix "/" $config.pdfBaseURL) (strings.TrimPrefix "/" ($paper.pdf_path | default "")) }}
-<article class="article">
-  <p><a href="{{ printf "%s/" $year | relURL }}">← {{ $year }}年の目次へ戻る</a></p>
-  <h1>{{ $talk }}</h1>
-  <p class="session">{{ $paper.session }}　{{ $paper.date }} {{ $paper.room }} {{ $paper.time }}</p>
-  <h2>{{ $paper.title_ja | safeHTML }}{{ if and $paper.title_ja $paper.title_en }}<br>{{ end }}{{ $paper.title_en | safeHTML }}</h2>
-  <p>{{ partial "authors.html" $paper }}{{ with index $paper "著者情報（英語）" }}<br>{{ . | safeHTML }}{{ end }}</p>
-  <div class="abstract">{{ $paper.abstract_ja | safeHTML }}</div>
-  {{ if $hasPDF }}<p><a class="pdf-button" href="{{ $pdf }}" target="_blank" rel="noopener">PDFを開く</a></p>{{ end }}
+{{ $paper := .Params.paper }}
+{{ $config := index hugo.Data (printf "proceedings_%s" .Params.year) }}
+<nav class="breadcrumbs" aria-label="パンくず"><a href="{{ site.Home.RelPermalink }}">ホーム</a> / <a href="{{ printf "%s/" .Params.year | relURL }}">{{ .Params.year }}年の目次</a> / {{ $paper.talk_id }}</nav>
+<article class="article paper-detail">
+<p class="eyebrow">{{ .Params.year }} · {{ $paper.talk_id }}</p>
+<h1>{{ ($paper.title_ja | default $paper.title_en | default $paper.talk_id) | safeHTML }}</h1>
+{{ if and $paper.title_ja $paper.title_en }}<p class="english-title" lang="en">{{ $paper.title_en | safeHTML }}</p>{{ end }}
+<div class="paper-authors">{{ partial "authors.html" $paper }}{{ with index $paper "著者情報（英語）" }}<p lang="en">{{ . | safeHTML }}</p>{{ end }}</div>
+<dl class="metadata"><dt>収録巻</dt><dd><a href="{{ printf "%s/" .Params.year | relURL }}">{{ $config.title }}</a></dd><dt>講演番号</dt><dd>{{ $paper.talk_id }}</dd>{{ with $paper.session }}<dt>セッション</dt><dd>{{ . }}</dd>{{ end }}{{ with $paper.presentation_type }}<dt>発表形式</dt><dd>{{ . }}</dd>{{ end }}{{ with partial "publication-date.html" $config }}<dt>公開日</dt><dd>{{ . }}</dd>{{ end }}{{ with $paper.start_page }}<dt>開始ページ</dt><dd>{{ . }}</dd>{{ end }}</dl>
+{{ with partial "pdf-url.html" (dict "Paper" $paper "Config" $config) }}<p><a class="button" href="{{ . }}">PDFを開く ↗</a></p>{{ end }}
+{{ with $paper.abstract_ja }}<section class="abstract"><h2>アブストラクト</h2>{{ . | safeHTML }}</section>{{ end }}
+{{ with $paper.abstract_en }}<section class="abstract" lang="en"><h2>Abstract</h2>{{ . | safeHTML }}</section>{{ end }}
+<p class="paper-navigation"><a href="{{ printf "%s/" .Params.year | relURL }}">← {{ .Params.year }}年の目次へ</a><a id="back-search" href="{{ "search/" | relURL }}">プロシーディングス検索へ</a></p>
 </article>
+<script type="module" src="{{ "js/paper.js" | relURL }}"></script>
 {{ end }}

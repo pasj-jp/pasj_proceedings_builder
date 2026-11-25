@@ -1,4 +1,3 @@
-{{ $withAbstract := .WithAbstract }}
 {{ $page := .Page }}
 {{ $year := .Year }}
 {{ $config := .Config }}
@@ -7,8 +6,8 @@
   <h1>{{ $config.title }}</h1>
   <div class="copyright">{{ $config.copyrightNotice }}</div>
   <p>{{ $config.disclosure }}</p>
-  <p>{{ if $withAbstract }}プロシーディングス目次（アブストラクト付き）{{ else }}プロシーディングス目次（アブストラクトなし）{{ end }}</p>
-  <nav>{{ if $withAbstract }}<a href="{{ printf "%s/" $year | relURL }}">［アブストラクトなし］</a>{{ else }}<a href="{{ printf "%s/abstracts/" $year | relURL }}">［アブストラクト付き］</a>{{ end }} <a href="{{ printf "%s/authors/" $year | relURL }}">［著者索引］</a></nav>
+  <p>プロシーディングス目次</p>
+  <nav><a href="{{ printf "%s/authors/" $year | relURL }}">［著者索引］</a></nav>
 </header>
 {{ $current := "" }}
 <table class="papers">
@@ -19,11 +18,10 @@
   {{ if and .start_page .pdf_path }}{{ $hasPDF = true }}{{ $startPage = .start_page }}{{ end }}
   {{ $label := printf "%s　（%s %s）" .session .date .room }}
   {{ if ne $label $current }}<tr><th colspan="2" class="session" id="{{ $talk }}">{{ $label }}</th></tr>{{ $current = $label }}{{ end }}
-  <tr><td colspan="2" class="time">{{ .time }}</td></tr>
   {{ $pdf := printf "%s/%s" (strings.TrimSuffix "/" $config.pdfBaseURL) (strings.TrimPrefix "/" (.pdf_path | default "")) }}
   <tr class="paper-row">
-    <td class="code">{{ if $hasPDF }}<a href="{{ $pdf }}" target="_blank" rel="noopener">{{ $talk }}</a><br><b>p.{{ $startPage }}</b>{{ else }}{{ $talk }}{{ end }}<div class="links"><a href="{{ printf "%s/papers/%s/" $year (lower $talk) | relURL }}">[Abstract]</a></div></td>
-    <td>{{ if $hasPDF }}<a href="{{ $pdf }}" target="_blank" rel="noopener">{{ end }}{{ .title_ja | safeHTML }}{{ if and .title_ja .title_en }}<br>{{ end }}{{ .title_en | safeHTML }}{{ if $hasPDF }}</a>{{ end }}<br>{{ partial "authors.html" . }}{{ with index . "著者情報（英語）" }}<br>{{ . | safeHTML }}{{ end }}{{ if $withAbstract }}<div class="abstract">{{ .abstract_ja | safeHTML }}</div>{{ end }}</td>
+    <td class="code">{{ if $hasPDF }}<a href="{{ $pdf }}" target="_blank" rel="noopener">{{ $talk }}</a><br><b>p.{{ $startPage }}</b>{{ else }}{{ $talk }}{{ end }}</td>
+    <td><a class="paper-title" href="{{ printf "%s/papers/%s/" $year (lower $talk) | relURL }}">{{ .title_ja | safeHTML }}{{ if and .title_ja .title_en }}<br>{{ end }}{{ .title_en | safeHTML }}</a><br>{{ partial "authors.html" . }}{{ with index . "著者情報（英語）" }}<br>{{ . | safeHTML }}{{ end }}</td>
   </tr>
 {{ end }}
 </table>

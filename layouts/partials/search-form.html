@@ -1,0 +1,5 @@
+<form class="search-form" action="{{ "search/" | relURL }}" method="get" role="search"{{ if .Full }} id="paper-search" data-index="{{ "index.json" | relURL }}"{{ end }}>
+<label for="query">論文を検索</label>
+<div class="search-bar"><input id="query" name="q" type="search" placeholder="論文タイトル・著者名・キーワードで検索"><button type="submit">検索</button></div>
+
+</form>

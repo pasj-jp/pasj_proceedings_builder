@@ -3,10 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ with .Params.talk_id }} ({{ . }}, {{ $.Params.year }}){{ end }} | {{ site.Title }}{{ end }}</title>
+  {{ partial "seo.html" . }}
   <link rel="icon" type="image/png" href="{{ "favicon.png" | relURL }}">
-  <link rel="stylesheet" href="{{ "css/proceedings.css" | relURL }}">
+  {{ $style := resources.FromString "css/proceedings.css" (readFile "static/css/proceedings.css") | fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
 </head>
-<body><main class="page">{{ block "main" . }}{{ end }}</main></body>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="{{ site.Home.RelPermalink }}"><span class="brand-mark"><img src="{{ "favicon.png" | relURL }}" alt="PASJ" width="64" height="43"></span><span>日本加速器学会<span class="brand-sub">Proceedings Archive</span></span></a>
+  <nav aria-label="メインナビゲーション"><a href="{{ site.Home.RelPermalink }}"{{ if .IsHome }} aria-current="page"{{ end }}>ホーム</a><a href="{{ "search/" | relURL }}"{{ if eq .Layout "search" }} aria-current="page"{{ end }}>プロシーディングス検索</a><a href="{{ site.Home.RelPermalink }}#years">年度別一覧</a></nav>
+</div></header>
+<main id="main" class="page">{{ block "main" . }}{{ end }}</main>
+<footer class="site-footer"><div>日本加速器学会 · Particle Accelerator Society of Japan{{ with site.Params.issn }}<br>ISSN {{ . }} (Online){{ end }}</div><a href="{{ site.Home.RelPermalink }}">Proceedings Archive</a></footer>
+</body>
 </html>
-
